@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper
+@Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface EmployeeMapper {
 
     @Mappings({ @Mapping(target = "employeeId", source = "entity.id"), @Mapping(target = "employeeName", source = "entity.name"), @Mapping(target = "employeeStartDt", source = "entity.startDt", dateFormat = "dd-MM-yyyy HH:mm:ss") })
@@ -26,5 +26,10 @@ public interface EmployeeMapper {
     List<Employee> convertEmployeeDTOListToEmployeeList(List<EmployeeDTO> list);
 
     List<EmployeeDTO> convertEmployeeListToEmployeeDTOList(List<Employee> list);
+    
+    @Mappings({@Mapping(target = "id", source = "employeeId"),
+            @Mapping(target = "name", source = "employeeName"),
+            @Mapping(target = "startDt", source = "employeeStartDt", dateFormat = "dd-MM-yyyy HH:mm:ss")})
+    void dtoToEntity(EmployeeDTO dto, @MappingTarget Employee entity);    
 
 }
